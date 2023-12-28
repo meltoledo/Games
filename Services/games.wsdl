@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8'?>
+ 
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:tns="http://localhost/games/services/gamesSoap.class.php" 
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+  xmlns="http://schemas.xmlsoap.org/wsdl/" 
+  targetNamespace="http://localhost/games/services/gamesSoap.class.php">
+ 
+<types>
+<xsd:schema targetNamespace="http://localhost/games/services/gamesSoap.class.php">
+<xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+<xsd:complexType name="dadosSecType">
+<!-- Pede senha para acessar a informacao
+<xsd:sequence>
+    <xsd:element name="username" type="xsd:string"/>
+    <xsd:element name="password" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:element name="security" type="tns:dadosSecType"/>
+</xsd:schema>
+</types>
+ 
+<message name="security">
+    <part name="sec" element="tns:security"/>
+</message>
+ -->
+<message name="buscar_consoleRequest">
+</message>
+<message name="buscar_consoleResponse">
+	<part name="retorno" type="xsi:string"/>
+</message>
+
+<portType name="portType1">
+
+	<operation name="buscar_console">
+	
+		<documentation>Buscar console</documentation>
+		
+		    <input message="buscar_consoleRequest"/>
+		
+		<output message="buscar_consoleResponse"/>
+	</operation>
+	
+</portType>
+
+    <binding name="binding1" type="tns:portType1">
+
+	    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+	
+            <operation name="buscar_console">
+            <soap:operation soapAction="http://localhost/games/services/gamesSoap.class.php/buscar_console" style="rpc"/>
+            <input>
+                <soap:body use="encode" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="games"/>
+                
+                <soap:header use="literal" message="tns:security" namespace="games" part="sec"/>
+                
+            </input>
+            
+            <output>
+                <soap:body use="encode" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="games"/>
+            </output>
+            
+        </operation>
+
+    </binding>
+
+<service name="gamesSoap">
+	<port name="tns:portType1" binding="tns:binding1">
+		<soap:address location="http://localhost/games/services/gamesSoap.class.php"/>
+	</port>
+</service>
+</definitions>
